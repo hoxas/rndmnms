@@ -20,6 +20,8 @@ def question():
 
 
 def generate():
+    
+    # make a for loop
 
     s1 = random.choices([random.choice(vowels), random.choice(cons)], weights=[0.4, 0.6], k=1)
     s1 = s1[0]
