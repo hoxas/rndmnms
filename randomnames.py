@@ -9,10 +9,10 @@ cons = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s
 
 
 def question():
-    start = input("Generate more? Y/N ")
+    start = input("Generate more? Y/N \n")
     if start[:1].upper() == "Y":
         generate()
-    elif start[:1].upper() == "N":
+    elif start[:1].upper() == "N" or start[:1].upper() == "E":
         print("We're done here!")
     else:
         print("What?!")
@@ -32,7 +32,7 @@ def generate():
         s2 = random.choice(cons)
 
     end = random.choice(range(101))
-    print(end)
+    # print(end)
 
     if end >= 10:
         if s2 in cons:
@@ -88,9 +88,9 @@ def generate():
 
 
     newname = name[:1].upper() + name[1:]
+    print('')
     print(newname)
-
-
+    print('')
     question()
 
 
