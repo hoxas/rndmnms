@@ -1,97 +1,60 @@
 import random
-import sys
-import numpy
 
 # random names
 
-vowels = ["a", "e", "i", "o", "u", "y"]
-cons = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "x", "w", "z"]
 
+class RandomNameGenerator:
+    def __init__(self):
+        self.vowels = ["a", "e", "i", "o", "u", "y"]
+        self.cons = ["b", "c", "d", "f", "g", "h", "j", "k", "l",
+                     "m", "n", "p", "q", "r", "s", "t", "v", "x", "w", "z"]
+        self.vowel_weight = 0.4
+        self.cons_weight = 0.6
+        self.name = ""
+        self.name_length = None
 
-def question():
-    start = input("Generate more? Y/N \n")
-    if start[:1].upper() == "Y":
-        generate()
-    elif start[:1].upper() == "N" or start[:1].upper() == "E":
-        print("We're done here!")
-    else:
-        print("What?!")
-        question()
-
-
-def generate():
-    
-    # make a for loop
-
-    s1 = random.choices([random.choice(vowels), random.choice(cons)], weights=[0.4, 0.6], k=1)
-    s1 = s1[0]
-
-    if s1 in cons:
-        s2 = random.choice(vowels)
-    else:
-        s2 = random.choice(cons)
-
-    end = random.choice(range(101))
-    # print(end)
-
-    if end >= 10:
-        if s2 in cons:
-            s3 = random.choice(vowels)
+    def ask(self):
+        start = input("Generate more? Y/N \n")
+        if start[:1].upper() == "Y":
+            self.run()
+        elif start[:1].upper() == "N" or start[:1].upper() == "E":
+            print("We're done here!")
         else:
-            s3 = random.choice(cons)
-        if end >= 20:
-            if s3 in cons:
-                s4 = random.choice(vowels)
-            else:
-                s4 = random.choice(cons)
-            if end >= 30:
-                if s4 in cons:
-                    s5 = random.choice(vowels)
-                else:
-                    s5 = random.choice(cons)
-                if end >= 45:
-                    if s5 in cons:
-                        s6 = random.choice(vowels)
-                    else:
-                        s6 = random.choice(cons)
-                    if end >= 62:
-                        if s6 in cons:
-                            s7 = random.choice(vowels)
-                        else:
-                            s7 = random.choice(cons)
-                        if end >= 75:
-                            if s7 in cons:
-                                s8 = random.choice(vowels)
-                            else:
-                                s8 = random.choice(cons)
-                            if end >= 90:
-                                if s8 in cons:
-                                    s9 = random.choice(vowels)
-                                else:
-                                    s9 = random.choice(cons)
-                                name = s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8 + s9
-                            elif end < 90:
-                                name = s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8
-                        elif end < 75:
-                            name = s1 + s2 + s3 + s4 + s5 + s6 + s7
+            print("What?!")
+            self.ask()
 
-                    elif end < 62:
-                        name = s1 + s2 + s3 + s4 + s5 + s6
-                elif end < 45:
-                    name = s1 + s2 + s3 + s4 + s5
-            elif end < 30:
-                name = s1 + s2 + s3 + s4
-        elif end < 20:
-            name = s1 + s2 + s3
-    elif end < 10:
-        name = s1 + s2
+    def name_to_string(self):
+        _name = ""
+        letters = (letter for letter in self.name)
+        for letter in letters:
+            _name += letter
+        self.name = _name
+
+    def capitalize(self):
+        self.name = self.name.capitalize()
+
+    def generate_name_length(self):
+        self.name_length = random.randint(2, 12)
+
+    def generate_letter(self):
+        if not self.name:
+            self.name = random.choices([random.choice(self.vowels), random.choice(
+                self.cons)], weights=[self.vowel_weight, self.cons_weight], k=1)
+        elif self.name[-1] in self.vowels:
+            self.name += random.choice(self.cons)
+        else:
+            self.name += random.choice(self.vowels)
+
+    def run(self):
+        self.name = ""
+        self.generate_name_length()
+        for _ in range(0, self.name_length):
+            self.generate_letter()
+        self.name_to_string()
+        self.capitalize()
+        print(self.name)
+        self.ask()
 
 
-    newname = name[:1].upper() + name[1:]
-    print('')
-    print(newname)
-    print('')
-    question()
-
-
-generate()
+if __name__ == "__main__":
+    RandomNameGenerator().run()
